@@ -1,1 +1,10 @@
+anthropic
+docx
+io
+json
+numpy
+os
+sklearn
 streamlit
+sys
+voyageai
