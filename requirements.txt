@@ -1,10 +1,6 @@
-anthropic
-docx
-io
-json
-numpy
-os
-sklearn
 streamlit
-sys
+anthropic
+numpy
+scikit-learn
+python-docx
 voyageai
