@@ -90,25 +90,47 @@ class DiagnosticTreatmentAgent:
     def generate_haiku_prompt(self, patient_data: str, relevant_criteria: List[Dict]):
         print("Generating Haiku prompt using Opus...")
         message = f"""
-        Create a specific prompt for an AI model to analyze the following patient data and suggest possible diagnoses based on the provided DSM-5 criteria. The prompt should instruct the model to:
-        1. Compare the patient's symptoms with the DSM-5 criteria
-        2. Identify which criteria are met
-        3. Suggest possible diagnoses based on the criteria met
-        4. Explain the reasoning behind the suggestions
-        5. Highlight any areas where more information might be needed
+        You are tasked with creating a prompt for an AI model to analyze patient data and suggest possible diagnoses based on DSM-5 criteria. Your prompt should guide the AI to perform a thorough diagnostic analysis. Here's the information you need to incorporate:
 
+Create a prompt that instructs the AI model to:
+
+1. Carefully review the patient data provided above.
+2. Compare the patient's symptoms with the DSM-5 criteria provided.
+3. Identify which specific criteria are met, citing relevant patient information for each.
+4. Suggest possible diagnoses based on the criteria met.
+5. Provide a detailed explanation of the reasoning behind each suggested diagnosis.
+6. Highlight any areas where more information might be needed for a more accurate diagnosis.
+
+Your prompt should emphasize the importance of a systematic approach and clear, evidence-based reasoning. Instruct the AI to structure its response as follows:
+
+1. <criteria_analysis>
+   List each relevant DSM-5 criterion and whether it is met, with supporting evidence from the patient data.
+</criteria_analysis>
+
+2. <possible_diagnoses>
+   List each possible diagnosis, ordered from most to least likely.
+</possible_diagnoses>
+
+3. <diagnostic_reasoning>
+   For each possible diagnosis, provide a detailed explanation of why it is being suggested, referencing specific criteria met and patient symptoms.
+</diagnostic_reasoning>
+
+4. <information_gaps>
+   Identify any areas where additional information would be helpful for a more accurate diagnosis, explaining why this information is needed.
+</information_gaps>
+        
         Patient Data:
         {patient_data}
 
         Relevant DSM-5 Criteria:
         {json.dumps(relevant_criteria, indent=2)}
 
-        Create a concise and specific prompt for the AI model to perform the diagnostic analysis.
+Instruct the AI to be thorough in its analysis, considering all provided information. 
         """
 
         response = anthropic_client.messages.create(
             model=self.opus_model,
-            max_tokens=500,
+            max_tokens=1000,
             messages=[
                 {"role": "user", "content": message}
             ]
@@ -140,24 +162,28 @@ class DiagnosticTreatmentAgent:
     def generate_treatment_prompt(self, patient_data: str, patient_history: str, diagnosis: str):
         print("Generating treatment prompt using Opus...")
         message = f"""
-        Create a specific prompt for an AI model to suggest a treatment plan based on the following patient data, history, and diagnosis. The prompt should instruct the model to:
-        1. Consider appropriate therapy options
-        2. Suggest potential medications, if applicable
-        3. Recommend lifestyle changes that might be beneficial
-        4. Provide reasoning for each suggestion
-        5. Highlight any potential risks or side effects
+        You are tasked with creating a specific prompt for an AI model to suggest a treatment plan based on patient information. This prompt will be used to guide the AI in providing comprehensive and tailored treatment recommendations.
 
+Now, generate a prompt for the AI model to suggest a treatment plan. Your prompt should instruct the AI to:
+
+1. Consider appropriate therapy options
+2. Suggest potential medications, if applicable
+3. Recommend lifestyle changes that might be beneficial
+4. Provide reasoning for each suggestion
+5. Highlight any potential risks or side effects
+
+Ensure that your prompt is specific, detailed, and tailored to the patient's data, history, and diagnosis. The prompt should guide the AI to provide a comprehensive treatment plan that takes into account l factors.
         {diagnosis}
 
         Patient History:
         {patient_history}
 
-        Create a concise and specific prompt for the AI model to suggest a treatment plan.
+The prompt should be written as if addressing the AI model directly, instructing it on how to formulate the treatment plan based on the given information.
         """
 
         response = anthropic_client.messages.create(
             model=self.opus_model,
-            max_tokens=500,
+            max_tokens=1000,
             messages=[
                 {"role": "user", "content": message}
             ]
