@@ -101,6 +101,7 @@ Create a prompt that instructs the AI model to:
 5. Provide a detailed explanation of the reasoning behind each suggested diagnosis.
 6. Highlight any areas where more information might be needed for a more accurate diagnosis.
 
+Now, generate a prompt for the AI model. 
 Your prompt should emphasize the importance of a systematic approach and clear, evidence-based reasoning. Instruct the AI to structure its response as follows:
 
 1. <criteria_analysis>
@@ -125,7 +126,7 @@ Your prompt should emphasize the importance of a systematic approach and clear, 
         Relevant DSM-5 Criteria:
         {json.dumps(relevant_criteria, indent=2)}
 
-Instruct the AI to be thorough in its analysis, considering all provided information. 
+The prompt should be written as if addressing the AI model directly, instructing it to be thorough in its analysis, considering all provided information. 
         """
 
         response = anthropic_client.messages.create(
